@@ -1,30 +1,29 @@
-import { Controller ,Get,Post,Param,Delete,Put} from '@nestjs/common';
-
+import { Controller ,Get,Post,Param,Delete,Put,Body} from '@nestjs/common';
+import { PostsService } from './posts.service';
 @Controller('posts')
 export class PostsController {
-
+    constructor(private readonly postsService: PostsService) {}
     @Get()
     findAll(){
-        return ['post1' , 'post2' , 'post3'];
+        return this.postsService.findAll();
     }
-
     @Get(":id")
-    findOne(@Param("id") id:string){
-        return {message: `id is -> ${id}`}
-    }
-
-    @Put(":id")
-    update(@Param("id") id:string){
-        return {message: `update Post -> ${id}`}
+    findOne(@Param('id') id){
+        return this.postsService.findOne(+id);
     }
 
     @Post()
-    create(){
-        return {message :"created Success"}
+    create(@Body('name') name){
+        return this.postsService.create(name);
+    }
+
+    @Put(":id")
+    update(@Param("id") id , @Body('name') name){
+        return this.postsService.update(+id,name);
     }
 
     @Delete(":id")
-    remove(@Param('id') id:string){
-        return {message: `id is deleted-> ${id}`}
+    remove(@Param("id") id){
+        return this.postsService.remove(+id);
     }
 }

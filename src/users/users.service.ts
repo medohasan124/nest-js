@@ -21,6 +21,7 @@ export class UsersService {
         var newUser =  this.users.push({id:4,name:name});
         return this.findAll();
     }
+    
 
     update(id ,name){
         var user = this.users.find(user => user.id===id);
